@@ -49,28 +49,28 @@ export default function Board({ user, data }: BoardProps) {
       alert("Preencha alguma tarefa!");
     } else {
       if (taskEdit) {
-        await firebase.firestore().collection("tarefas")
-        .doc(taskEdit.id)
-        .update({
-          tarefa: input
-        })
-        .then(() => {
-          let data = taskList;
-          let taskIndex = taskList.findIndex(item => item.id === taskEdit.id);
+        await firebase
+          .firestore()
+          .collection("tarefas")
+          .doc(taskEdit.id)
+          .update({
+            tarefa: input,
+          })
+          .then(() => {
+            let data = taskList;
+            let taskIndex = taskList.findIndex(
+              (item) => item.id === taskEdit.id
+            );
 
-          data[taskIndex].tarefa = input
+            data[taskIndex].tarefa = input;
 
-          setTaskList(data)
-          setTaskEdit(null)
-          setInput('')
+            setTaskList(data);
+            setTaskEdit(null);
+            setInput("");
+          })
+          .catch((err) => {});
 
-        })
-        .catch((err) => {
-
-        });
-
-        return ;
-
+        return;
       } else {
         await firebase
           .firestore()
@@ -119,12 +119,12 @@ export default function Board({ user, data }: BoardProps) {
       </Head>
       <main className={styles.container}>
         {taskEdit && (
-        <span className={styles.warnText}>
-          <button onClick={handleCancelEdit}>
-            <FiX size={30} color="#ff3636" />
-          </button>
-          Você está editando uma tarefa.
-        </span>
+          <span className={styles.warnText}>
+            <button onClick={handleCancelEdit}>
+              <FiX size={30} color="#ff3636" />
+            </button>
+            Você está editando uma tarefa.
+          </span>
         )}
         <form onSubmit={handleAddTask}>
           <input
